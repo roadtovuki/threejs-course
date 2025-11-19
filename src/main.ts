@@ -1,3 +1,4 @@
+import "./style.css";
 import {
   BoxGeometry,
   Mesh,
@@ -6,6 +7,7 @@ import {
   Scene,
   WebGLRenderer,
 } from "three";
+import { OrbitControls } from "three/examples/jsm/Addons.js";
 
 const scene = new Scene();
 
@@ -26,8 +28,18 @@ const camera = new PerspectiveCamera(
 camera.position.z = 5;
 scene.add(camera);
 
-const canvasEl = document.querySelector("canvas.threejs") as Element;
+const canvasEl = document.querySelector("canvas.threejs") as HTMLElement;
 const renderer = new WebGLRenderer({ canvas: canvasEl });
-
 renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.render(scene, camera);
+
+const controls = new OrbitControls(camera, canvasEl);
+controls.enableDamping = true;
+controls.autoRotate = true;
+
+function renderLoop() {
+  controls.update();
+  renderer.render(scene, camera);
+  requestAnimationFrame(renderLoop);
+}
+
+renderLoop();
