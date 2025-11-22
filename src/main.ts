@@ -17,7 +17,6 @@ const cubeGeometry = new BoxGeometry(1, 1, 1);
 const cubeMaterial = new MeshBasicMaterial({ color: "red", wireframe: true });
 const cubeMesh = new Mesh(cubeGeometry, cubeMaterial);
 cubeMesh.position.y = 1;
-
 scene.add(cubeMesh);
 
 // cubeMesh.rotation.y = 7; // It is In Rad, Math.PI is half rotation
