@@ -2,8 +2,6 @@ import "./style.css";
 import {
   AxesHelper,
   BoxGeometry,
-  Clock,
-  MathUtils,
   Mesh,
   MeshBasicMaterial,
   PerspectiveCamera,
@@ -51,23 +49,7 @@ window.addEventListener("resize", () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-const clock = new Clock();
-let previousTime = 0;
-
 function renderLoop() {
-  const currentTime = clock.getElapsedTime();
-  const delta = currentTime - previousTime;
-  previousTime = currentTime;
-
-  // ANIMATION 1:
-  cubeMesh.rotation.y += MathUtils.degToRad(1) * delta * 20;
-  cubeMesh.rotation.z += MathUtils.degToRad(1) * delta * 20;
-  cubeMesh.rotation.x += MathUtils.degToRad(1) * delta * 20;
-
-  // ANIMATION 2:
-
-  cubeMesh.scale.x = Math.sin(currentTime) + 1;
-
   controls.update();
   renderer.render(scene, camera);
   requestAnimationFrame(renderLoop);
