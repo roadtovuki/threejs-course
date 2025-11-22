@@ -2,6 +2,7 @@ import "./style.css";
 import {
   AxesHelper,
   BoxGeometry,
+  MathUtils,
   Mesh,
   MeshBasicMaterial,
   PerspectiveCamera,
@@ -13,14 +14,19 @@ import { OrbitControls } from "three/examples/jsm/Addons.js";
 const scene = new Scene();
 
 const cubeGeometry = new BoxGeometry(1, 1, 1);
-const cubeMaterial = new MeshBasicMaterial({ color: "red" });
-
+const cubeMaterial = new MeshBasicMaterial({ color: "red", wireframe: true });
 const cubeMesh = new Mesh(cubeGeometry, cubeMaterial);
+cubeMesh.position.y = 1;
 
 scene.add(cubeMesh);
 
+// cubeMesh.rotation.y = 7; // It is In Rad, Math.PI is half rotation
+cubeMesh.rotation.reorder("YXZ");
+cubeMesh.rotation.y = MathUtils.degToRad(90);
+cubeMesh.rotation.x = MathUtils.degToRad(45);
+
 const axesHelper = new AxesHelper(2);
-scene.add(axesHelper);
+cubeMesh.add(axesHelper);
 
 const camera = new PerspectiveCamera(
   35,
