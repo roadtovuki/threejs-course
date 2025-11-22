@@ -2,12 +2,10 @@ import "./style.css";
 import {
   AxesHelper,
   BoxGeometry,
-  Group,
   Mesh,
   MeshBasicMaterial,
   PerspectiveCamera,
   Scene,
-  Vector3,
   WebGLRenderer,
 } from "three";
 import { OrbitControls } from "three/examples/jsm/Addons.js";
@@ -18,29 +16,8 @@ const cubeGeometry = new BoxGeometry(1, 1, 1);
 const cubeMaterial = new MeshBasicMaterial({ color: "red" });
 
 const cubeMesh = new Mesh(cubeGeometry, cubeMaterial);
-cubeMesh.position.y = -1;
-const cubeMesh2 = new Mesh(cubeGeometry, cubeMaterial);
-cubeMesh2.position.x = 2;
-const cubeMesh3 = new Mesh(cubeGeometry, cubeMaterial);
-cubeMesh3.position.x = -2;
 
-const group = new Group();
-group.add(cubeMesh);
-group.add(cubeMesh2);
-group.add(cubeMesh3);
-
-group.position.y = 2;
-
-scene.add(group);
-
-// cubeMesh.position.y = 1;
-// cubeMesh.position.z = -1;
-
-// const tempVector = new Vector3(0, 1, -1);
-// cubeMesh.position.copy(tempVector);
-
-// cubeMesh.scale.y = 2;
-// cubeMesh.scale.set(2, 2, 1);
+scene.add(cubeMesh);
 
 const axesHelper = new AxesHelper(2);
 scene.add(axesHelper);
