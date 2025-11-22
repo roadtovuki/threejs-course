@@ -29,12 +29,18 @@ camera.position.z = 5;
 scene.add(camera);
 
 const canvasEl = document.querySelector("canvas.threejs") as HTMLElement;
-const renderer = new WebGLRenderer({ canvas: canvasEl });
+const renderer = new WebGLRenderer({ canvas: canvasEl, antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 
 const controls = new OrbitControls(camera, canvasEl);
 controls.enableDamping = true;
 controls.autoRotate = true;
+
+window.addEventListener("resize", () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
 
 function renderLoop() {
   controls.update();
