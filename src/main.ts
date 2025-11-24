@@ -10,6 +10,8 @@ import {
 } from "three";
 import { OrbitControls } from "three/examples/jsm/Addons.js";
 
+// For real-time changes testing and visulization use Tweakpane package
+
 const scene = new Scene();
 
 const cubeGeometry = new BoxGeometry(1, 1, 1);
