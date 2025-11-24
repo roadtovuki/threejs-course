@@ -1,15 +1,14 @@
 import "./style.css";
 import {
-  AxesHelper,
+  AmbientLight,
   BoxGeometry,
-  Color,
-  DoubleSide,
-  Fog,
   Mesh,
-  MeshBasicMaterial,
+  MeshPhongMaterial,
   PerspectiveCamera,
   PlaneGeometry,
+  PointLight,
   Scene,
+  TorusKnotGeometry,
   WebGLRenderer,
 } from "three";
 import { OrbitControls } from "three/examples/jsm/Addons.js";
@@ -19,37 +18,34 @@ import { OrbitControls } from "three/examples/jsm/Addons.js";
 const scene = new Scene();
 
 const cubeGeometry = new BoxGeometry(1, 1, 1);
+const torusKnotGeometry = new TorusKnotGeometry(0.5, 0.15, 100, 16);
 const planeGeometry = new PlaneGeometry(1, 1);
-// const material = new MeshBasicMaterial({
-//   color: "red",
-//   transparent: true,
-//   opacity: 0.5,
-// });
 
-const material = new MeshBasicMaterial();
-material.color = new Color("limeGreen");
-material.transparent = true;
-material.opacity = 0.5;
-material.side = DoubleSide;
-
-const fog = new Fog(0xffffff, 1, 10);
-scene.fog = fog;
-scene.background = new Color(0xffffff);
+// const material = new MeshLambertMaterial();
+const material = new MeshPhongMaterial();
+material.shininess = 90;
 
 const cubeMesh = new Mesh(cubeGeometry, material);
 
-const cubeMesh2 = new Mesh(cubeGeometry, material);
-cubeMesh2.position.x = 1.5;
+const torusMesh = new Mesh(torusKnotGeometry, material);
+torusMesh.position.x = 1.5;
 
 const planeMesh = new Mesh(planeGeometry, material);
 planeMesh.position.x = -1.5;
 
 scene.add(cubeMesh);
-scene.add(cubeMesh2);
+scene.add(torusMesh);
 scene.add(planeMesh);
 
-const axesHelper = new AxesHelper(2);
-cubeMesh.add(axesHelper);
+const light = new AmbientLight(0xffffff, 0.2);
+scene.add(light);
+
+const pointLight = new PointLight(0xffffff, 0.3);
+pointLight.position.set(5, 5, 5);
+scene.add(pointLight);
+
+// const axesHelper = new AxesHelper(2);
+// cubeMesh.add(axesHelper);
 
 const camera = new PerspectiveCamera(
   35,
@@ -59,8 +55,6 @@ const camera = new PerspectiveCamera(
 );
 
 camera.position.z = 5;
-camera.position.x = 3;
-camera.position.y = 1;
 
 console.log(cubeMesh.position.distanceTo(camera.position));
 
