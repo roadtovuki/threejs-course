@@ -2,8 +2,9 @@ import "./style.css";
 import {
   AmbientLight,
   BoxGeometry,
+  Color,
   Mesh,
-  MeshPhongMaterial,
+  MeshPhysicalMaterial,
   PerspectiveCamera,
   PlaneGeometry,
   PointLight,
@@ -21,9 +22,9 @@ const cubeGeometry = new BoxGeometry(1, 1, 1);
 const torusKnotGeometry = new TorusKnotGeometry(0.5, 0.15, 100, 16);
 const planeGeometry = new PlaneGeometry(1, 1);
 
-// const material = new MeshLambertMaterial();
-const material = new MeshPhongMaterial();
-material.shininess = 90;
+// const material = new MeshStandardMaterial();
+const material = new MeshPhysicalMaterial();
+material.color = new Color("green");
 
 const cubeMesh = new Mesh(cubeGeometry, material);
 
@@ -37,10 +38,10 @@ scene.add(cubeMesh);
 scene.add(torusMesh);
 scene.add(planeMesh);
 
-const light = new AmbientLight(0xffffff, 0.2);
+const light = new AmbientLight(0xffffff, 0.4);
 scene.add(light);
 
-const pointLight = new PointLight(0xffffff, 0.3);
+const pointLight = new PointLight(0xffffff, 0.7);
 pointLight.position.set(5, 5, 5);
 scene.add(pointLight);
 
