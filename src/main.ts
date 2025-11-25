@@ -1,91 +1,48 @@
 import "./style.css";
 import {
-  AmbientLight,
-  BoxGeometry,
-  CylinderGeometry,
-  Group,
   Mesh,
   MeshBasicMaterial,
   PerspectiveCamera,
-  PlaneGeometry,
-  PointLight,
   Scene,
   SphereGeometry,
-  TextureLoader,
-  TorusKnotGeometry,
   WebGLRenderer,
+  Clock,
 } from "three";
 import { OrbitControls } from "three/examples/jsm/Addons.js";
 
-// For real-time changes testing and visulization use Tweakpane package
-
 const scene = new Scene();
 
-const textureLoader = new TextureLoader();
+const sphereGeometry = new SphereGeometry(1, 32, 32);
 
-const cubeGeometry = new BoxGeometry(1, 1, 1);
-const torusKnotGeometry = new TorusKnotGeometry(0.5, 0.15, 100, 16);
-const planeGeometry = new PlaneGeometry(1, 1);
-const sphereGeometry = new SphereGeometry(0.5, 32, 32);
-const cylinderGeometry = new CylinderGeometry(0.5, 0.5, 1, 32);
+const sunMaterial = new MeshBasicMaterial({ color: 0xfff700 });
+const sun = new Mesh(sphereGeometry, sunMaterial);
+sun.scale.setScalar(5);
+scene.add(sun);
 
-const textureTest = textureLoader.load("/lava-and-rock_albedo.png");
+const earthMaterial = new MeshBasicMaterial({
+  color: "blue",
+});
+const earth = new Mesh(sphereGeometry, earthMaterial);
+earth.position.x = 10;
+sun.add(earth);
 
-// Texture topics:
-// repeating, offset, UV Mapping, PBR Maps, roughnessMap, metalnessMap,
-// normalMap, displacementMap (heighMap), Ambient occlusion
-
-// Lighting topics:
-// Ambient light, hemisphere light, directional light, directionalLightHelper,
-// pointLight, spotLight, rectAreaLight
-
-const material = new MeshBasicMaterial();
-material.map = textureTest;
-
-const group = new Group();
-
-const cube = new Mesh(cubeGeometry, material);
-
-const knot = new Mesh(torusKnotGeometry, material);
-knot.position.x = 1.5;
-
-const plane = new Mesh(planeGeometry, material);
-plane.position.x = -1.5;
-
-const sphere = new Mesh();
-sphere.geometry = sphereGeometry;
-sphere.material = material;
-sphere.position.y = 1.5;
-
-const cylinder = new Mesh();
-cylinder.geometry = cylinderGeometry;
-cylinder.material = material;
-cylinder.position.y = -1.5;
-
-group.add(cube);
-group.add(knot);
-group.add(plane);
-group.add(sphere);
-group.add(cylinder);
-scene.add(group);
-
-const light = new AmbientLight(0xffffff, 0.4);
-scene.add(light);
-
-const pointLight = new PointLight(0xffffff, 1.2);
-pointLight.position.set(5, 5, 5);
-scene.add(pointLight);
+const moonMaterial = new MeshBasicMaterial({
+  color: "grey",
+});
+const moon = new Mesh(sphereGeometry, moonMaterial);
+moon.scale.setScalar(0.3);
+moon.position.x = 2;
+earth.add(moon);
 
 const camera = new PerspectiveCamera(
   35,
   window.innerWidth / window.innerHeight,
   0.1,
-  200
+  400
 );
 
-camera.position.z = 5;
-
-console.log(cube.position.distanceTo(camera.position));
+camera.position.z = 100;
+camera.position.y = 5;
 
 scene.add(camera);
 
@@ -95,7 +52,6 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 
 const controls = new OrbitControls(camera, canvasEl);
 controls.enableDamping = true;
-// controls.autoRotate = true;
 
 window.addEventListener("resize", () => {
   camera.aspect = window.innerWidth / window.innerHeight;
@@ -103,12 +59,17 @@ window.addEventListener("resize", () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
+const clock = new Clock();
 function renderLoop() {
-  group.children.forEach((child) => {
-    if (child instanceof Mesh) {
-      child.rotation.y += 0.01;
-    }
-  });
+  const elapsedTime = clock.getElapsedTime();
+  // add animation here
+  earth.rotation.y += 0.01;
+
+  earth.position.x = Math.sin(elapsedTime) * 10;
+  earth.position.z = Math.cos(elapsedTime) * 10;
+
+  moon.position.x = Math.sin(elapsedTime) * 2;
+  moon.position.x = Math.cos(elapsedTime) * 2;
 
   controls.update();
   renderer.render(scene, camera);
