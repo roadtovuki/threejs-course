@@ -35,6 +35,10 @@ const textureTest = textureLoader.load("/lava-and-rock_albedo.png");
 // repeating, offset, UV Mapping, PBR Maps, roughnessMap, metalnessMap,
 // normalMap, displacementMap (heighMap), Ambient occlusion
 
+// Lighting topics:
+// Ambient light, hemisphere light, directional light, directionalLightHelper,
+// pointLight, spotLight, rectAreaLight
+
 const material = new MeshBasicMaterial();
 material.map = textureTest;
 
