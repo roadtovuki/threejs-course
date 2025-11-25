@@ -31,6 +31,10 @@ const cylinderGeometry = new CylinderGeometry(0.5, 0.5, 1, 32);
 
 const textureTest = textureLoader.load("/lava-and-rock_albedo.png");
 
+// Texture topics:
+// repeating, offset, UV Mapping, PBR Maps, roughnessMap, metalnessMap,
+// normalMap, displacementMap (heighMap), Ambient occlusion
+
 const material = new MeshBasicMaterial();
 material.map = textureTest;
 
